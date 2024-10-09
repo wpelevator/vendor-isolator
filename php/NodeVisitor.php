@@ -67,9 +67,9 @@ final class NodeVisitor extends NodeVisitorAbstract
             // No name means global namespace, so leave it alone
             if (isset($node->name)) {
                 // Keep track of the current namespace
-                $this->namespace = implode('\\', $node->name->parts);
+                $this->namespace = (string) $node->name;
 
-                $node->name->parts = $this->transformNamespace($node->name->parts);
+                $node->name = $node->name->concat( $this->transformNamespace($node->name->getParts()), null );
             }
         } elseif ($node instanceof Node\Stmt\Use_) {
             foreach ($node->uses as $use) {
@@ -77,16 +77,16 @@ final class NodeVisitor extends NodeVisitorAbstract
                     // Keep track of any aliases being used
                     $this->aliases[] = $use->alias;
                 }
-                if (count($use->name->parts) > 1) { // Single part means global, so ignore
+                if (count($use->name->getParts()) > 1) { // Single part means global, so ignore
                     // Split off the classname and transform the namespace
-                    $ns = $use->name->parts;
-                    $i = count($ns) - 1;
-                    $ns = array_slice($ns, 0, $i);
+                    $ns_parts = $use->name->getParts();
+                    $i = count($ns_parts) - 1;
+                    $ns = array_slice($ns_parts, 0, $i);
                     $ns = $this->transformNamespace($ns);
 
                     // Put the classname back on and override
-                    $ns[] = $use->name->parts[$i];
-                    $use->name->parts = array_filter($ns);
+                    $ns[] = $ns_parts[$i];
+                    $use->name = $use->name->concat( array_filter($ns), null );
                 }
             }
         } elseif ($node instanceof String_) {
@@ -109,12 +109,12 @@ final class NodeVisitor extends NodeVisitorAbstract
             }
         } elseif ($node instanceof Node\Name) {
             if ($node->isFullyQualified() || '__global__' == $this->namespace) {
-                if (count($node->parts) > 1) { // Single part means global, so ignores
+                if (count($node->getParts()) > 1) { // Single part means global, so ignores
                     // If the first part is aliased, then we don't need to transform
                     // The alias should already be transformed properly
                     $aliased = false;
                     foreach ($this->aliases as $alias) {
-                        if ($node->parts[0] == $alias) {
+                        if ($node->getFirst() == $alias) {
                             $aliased = true;
                             break;
                         }
@@ -122,14 +122,14 @@ final class NodeVisitor extends NodeVisitorAbstract
 
                     if (!$aliased) {
                         // Split off the classname and transform the namespace
-                        $ns = $node->parts;
-                        $i = count($ns) - 1;
-                        $ns = array_slice($ns, 0, $i);
+                        $ns_parts = $node->getParts();
+                        $i = count($ns_parts) - 1;
+                        $ns = array_slice($ns_parts, 0, $i);
                         $ns = $this->transformNamespace($ns);
 
                         // Put the classname back on and override
-                        $ns[] = $node->parts[$i];
-                        $node->parts = array_filter($ns);
+                        $ns[] =  $ns_parts[$i];
+						return $node->concat( array_filter($ns), null );
                     }
                 }
             }

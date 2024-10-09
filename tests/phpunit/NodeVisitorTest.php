@@ -32,7 +32,7 @@ class NodeVisitorTest extends TestCase
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
 
-        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $parser = (new ParserFactory())->createForHostVersion();
         $printer = new Standard();
 
         foreach ($map as $from => $to) {
