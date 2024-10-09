@@ -426,7 +426,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
         $transformed = false;
         $contents = file_get_contents($filepath);
 
-        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $parser = (new ParserFactory())->createForHostVersion();
         $prettyPrinter = new Standard();
         $traverser = new NodeTraverser();
         $visitor = new NodeVisitor($this->prefix, $this->checker);
