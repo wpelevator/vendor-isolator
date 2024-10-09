@@ -39,7 +39,7 @@ abstract class AbstractVisitor extends NodeVisitorAbstract
     protected function transformFilehashArray(Node\Expr\Array_ $arrayNode)
     {
         $printer = new Standard();
-        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $parser = (new ParserFactory())->createForHostVersion();
 
         foreach ($arrayNode->items as $i => $item) {
             if ($item->key instanceof Node\Scalar\String_ and false === strpos($item->key->value, 'isolated-')) {

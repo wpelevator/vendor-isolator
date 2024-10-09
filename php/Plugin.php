@@ -252,7 +252,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
         $installManager = $this->composer->getInstallationManager();
         $vendorsDir = rtrim(dirname(dirname($installManager->getInstallPath($packages[0]))), '\\/');
 
-        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $parser = (new ParserFactory())->createForHostVersion();
         $printer = new Standard();
 
         // Iterate over static files
@@ -333,7 +333,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
         $namespaces = [];
         $contents = file_get_contents($filepath);
 
-        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $parser = (new ParserFactory())->createForHostVersion();
         $traverser = new NodeTraverser();
         $visitor = new DiscoveryVisitor();
         $traverser->addVisitor($visitor);
