@@ -33,8 +33,6 @@
     "class": "XWP\\ComposerIsolator\\Plugin"
   },
   "scripts": {
-    "lint-php": "php-cs-fixer fix --dry-run --verbose",
-    "lint-php-fix": "php-cs-fixer fix",
     "lint-composer": "@composer validate",
     "test": "phpunit"
   }
