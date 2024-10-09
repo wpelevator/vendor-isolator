@@ -1,0 +1,42 @@
+{
+  "name": "wpelevator/vendor-isolator",
+  "description": "Composer plugin to isolate project dependencies by prefixing their namespace",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "type": "composer-plugin",
+  "require": {
+    "php": ">=5.6",
+    "composer-plugin-api": "^1.1",
+    "nikic/php-parser": "^3.1"
+  },
+  "require-dev": {
+    "composer/composer": "^1.0",
+    "friendsofphp/php-cs-fixer": "^2.19",
+    "phpunit/phpunit": "^5.7|^7.5"
+  },
+  "autoload":{
+    "psr-4":{
+      "XWP\\ComposerIsolator\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4":{
+      "XWP\\ComposerIsolatorTest\\": "tests/phpunit/"
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "5.6.20"
+    }
+  },
+  "extra": {
+    "class": "XWP\\ComposerIsolator\\Plugin"
+  },
+  "scripts": {
+    "lint-php": "php-cs-fixer fix --dry-run --verbose",
+    "lint-php-fix": "php-cs-fixer fix",
+    "lint-composer": "@composer validate",
+    "test": "phpunit"
+  }
+}
