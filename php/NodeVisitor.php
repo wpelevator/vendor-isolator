@@ -129,7 +129,7 @@ final class NodeVisitor extends NodeVisitorAbstract
 
                         // Put the classname back on and override
                         $ns[] =  $ns_parts[$i];
-						return $node->concat( array_filter($ns), null );
+                        return $node->concat( array_filter($ns), null );
                     }
                 }
             }
