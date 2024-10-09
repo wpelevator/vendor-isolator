@@ -20,7 +20,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
     /**
      * The name of this package
      */
-    const PACKAGENAME = 'xwp/composer-isolator';
+    const PACKAGENAME = 'wpelevator/vendor-isolator';
 
     /**
      * Reference to the running Composer instance
@@ -235,7 +235,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
             $repo->removePackage($package);
             $this->mutatePackage($package);
             $repo->addPackage($package);
-            $repo->write();
+            $repo->write(false, $this->composer->getInstallationManager()); // TODO: Do we need to pass $devMode?
 
             // Rewrite the files in vendor to use the prefixed namespaces
             $this->rewritePackage($package);
