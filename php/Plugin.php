@@ -81,6 +81,11 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
         $this->composer = $composer;
         $config = $composer->getConfig()->get('isolate');
 
+        // Assume not configured.
+        if (!isset($config)) {
+            return;
+        }
+
         // Get the namespace prefix and validate it
         if (!isset($config['prefix'])) {
             throw new \Exception('You must specify a prefix in your composer.json file');
@@ -527,5 +532,15 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
                 }
             }
         }
+    }
+
+    public function deactivate(Composer $composer, IOInterface $io)
+    {
+        // Do nothing
+    }
+
+    public function uninstall(Composer $composer, IOInterface $io)
+    {
+        // Do nothing
     }
 }
