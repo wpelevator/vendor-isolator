@@ -69,7 +69,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
      *
      * @var bool
      */
-    private static $autorun;
+    private static $autorun = true;
 
     /**
      * Initialization
@@ -130,13 +130,6 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
         $this->pkgdev = false;
         if (!empty($config['require-dev']) && $config['require-dev']) {
             $this->pkgdev = true;
-        }
-
-        // If this config value is found and set to true, then the dependency
-        // isolation process will automatically run before dumps
-        self::$autorun = false;
-        if (!empty($config['autorun']) && $config['autorun']) {
-            self::$autorun = true;
         }
     }
 
