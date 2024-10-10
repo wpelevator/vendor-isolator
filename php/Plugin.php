@@ -261,7 +261,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
             "$vendorsDir/composer/autoload_static.php" => AutoloadStaticVisitor::class,
         ] as $filepath => $visitorClass) {
             if (!is_file($filepath)) {
-                printf('File %s is not exist', $filepath);
+                printf('Skipping %s since not present.', $filepath);
                 continue;
             }
 
