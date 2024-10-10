@@ -13,7 +13,7 @@ final class Command extends BaseCommand
      */
     protected function configure()
     {
-        $this->setName('isolate');
+        $this->setName('vendor-isolate');
         $this->setDescription('Isolate dependencies');
     }
 

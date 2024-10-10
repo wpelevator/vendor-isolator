@@ -79,7 +79,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
     public function activate(Composer $composer, IOInterface $io)
     {
         $this->composer = $composer;
-        $config = $composer->getConfig()->get('isolate');
+        $config = $composer->getConfig()->get('vendor-isolator');
 
         // Assume not configured.
         if (!isset($config)) {
