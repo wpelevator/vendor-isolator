@@ -219,11 +219,12 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
             $repo->removePackage($package);
             $this->mutatePackage($package);
             $repo->addPackage($package);
-            $repo->write(false, $this->composer->getInstallationManager()); // TODO: Do we need to pass $devMode?
 
             // Rewrite the files in vendor to use the prefixed namespaces
             $this->rewritePackage($package);
         }
+
+        $repo->write($repo->getDevMode(), $this->composer->getInstallationManager());
     }
 
     /**
