@@ -237,7 +237,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
             $this->rewritePackage($package);
         }
 
-        $repo->write($repo->getDevMode(), $this->composer->getInstallationManager());
+        $repo->write(false, $this->composer->getInstallationManager());
     }
 
     /**
