@@ -1,6 +1,6 @@
 <?php
 
-namespace XWP\ComposerIsolator;
+namespace WPElevator\Vendor_Isolator;
 
 use Composer\Composer;
 use Composer\EventDispatcher\EventSubscriberInterface;
@@ -11,9 +11,9 @@ use Composer\Plugin\PluginInterface;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
-use XWP\ComposerIsolator\FilehashVisitor\AbstractVisitor;
-use XWP\ComposerIsolator\FilehashVisitor\AutoloadFilesVisitor;
-use XWP\ComposerIsolator\FilehashVisitor\AutoloadStaticVisitor;
+use WPElevator\Vendor_Isolator\FilehashVisitor\AbstractVisitor;
+use WPElevator\Vendor_Isolator\FilehashVisitor\AutoloadFilesVisitor;
+use WPElevator\Vendor_Isolator\FilehashVisitor\AutoloadStaticVisitor;
 
 final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 {
@@ -153,7 +153,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
     public function getCapabilities()
     {
         return [
-            'Composer\\Plugin\\Capability\\CommandProvider' => 'XWP\\ComposerIsolator\\CommandProvider',
+            'Composer\\Plugin\\Capability\\CommandProvider' => 'WPElevator\\Vendor_Isolator\\CommandProvider',
         ];
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace XWP\ComposerIsolator;
+namespace WPElevator\Vendor_Isolator;
 
 use Composer\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;

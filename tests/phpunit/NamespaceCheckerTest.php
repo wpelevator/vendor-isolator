@@ -1,9 +1,9 @@
 <?php
 
-namespace XWP\ComposerIsolatorTest;
+namespace WPElevator\Vendor_IsolatorTest;
 
 use PHPUnit\Framework\TestCase;
-use XWP\ComposerIsolator\NamespaceChecker;
+use WPElevator\Vendor_Isolator\NamespaceChecker;
 
 class TestNamespaceChecker extends TestCase
 {

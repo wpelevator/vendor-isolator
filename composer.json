@@ -15,12 +15,12 @@
   },
   "autoload":{
     "psr-4":{
-      "XWP\\ComposerIsolator\\": "php/"
+      "WPElevator\\Vendor_Isolator\\": "php/"
     }
   },
   "autoload-dev": {
     "psr-4":{
-      "XWP\\ComposerIsolatorTest\\": "tests/phpunit/"
+      "WPElevator\\Vendor_IsolatorTest\\": "tests/phpunit/"
     }
   },
   "config": {
@@ -30,7 +30,7 @@
     }
   },
   "extra": {
-    "class": "XWP\\ComposerIsolator\\Plugin"
+    "class": "WPElevator\\Vendor_Isolator\\Plugin"
   },
   "scripts": {
     "lint-composer": "@composer validate",

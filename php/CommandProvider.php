@@ -1,6 +1,6 @@
 <?php
 
-namespace XWP\ComposerIsolator;
+namespace WPElevator\Vendor_Isolator;
 
 use Composer\Plugin\Capability\CommandProvider as CommandProviderCapability;
 

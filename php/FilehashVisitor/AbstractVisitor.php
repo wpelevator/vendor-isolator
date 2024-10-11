@@ -1,6 +1,6 @@
 <?php
 
-namespace XWP\ComposerIsolator\FilehashVisitor;
+namespace WPElevator\Vendor_Isolator\FilehashVisitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
