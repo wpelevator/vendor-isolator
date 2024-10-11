@@ -92,15 +92,14 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 
         // Collect packages that don't need to be rewritten.
         // They will still be rewritten if they contain namespaces found in other packages
-        $excludelist = [
+        $this->excludelist = [
             self::PACKAGENAME, // TODO: Get this via Composer API?
+			'nikic/php-parser', // TODO: Remove this only if no other package depends on it.
         ];
 
         if (!empty($config['excludelist'])) {
-            $excludelist = array_merge($excludelist, $config['excludelist']);
+            $this->excludelist = array_merge($this->excludelist, $config['excludelist']);
         }
-
-        $this->excludelist = $excludelist;
 
         // These are string replacements that will be run after code rewrites
         // They are executed EVERY time, so make sure they are idempotent
@@ -213,15 +212,9 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
         // Build the namespace checker from the whitelist and the prefix
         $this->checker = new NamespaceChecker($namespaces, $this->prefix);
 
-        // TODO: Generate this dynamically.
-        $isolator_dependencies = [
-            self::PACKAGENAME,
-            'nikic/php-parser', // TODO: Remove this only if no other package depends on it.
-        ];
-
         // Remove the isolator internal dependencies.
         foreach ($repo->getCanonicalPackages() as $package) {
-            if (in_array($package->getName(), $isolator_dependencies, true)) {
+            if (in_array($package->getName(), $this->excludelist, true)) {
                 $repo->removePackage($package);
             }
         }
