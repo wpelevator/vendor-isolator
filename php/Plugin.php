@@ -65,13 +65,6 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
     private $replacements;
 
     /**
-     * Autorun?
-     *
-     * @var bool
-     */
-    private static $autorun = true;
-
-    /**
      * Initialization
      *
      * @throws \Exception
@@ -147,10 +140,8 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
             ],
         ];
 
-        if (self::$autorun) {
-            $events['pre-autoload-dump'] = 'mutateNamespaces';
-            $events['post-autoload-dump'] = 'mutateStaticFiles';
-        }
+        $events['pre-autoload-dump'] = 'mutateNamespaces';
+        $events['post-autoload-dump'] = 'mutateStaticFiles';
 
         return $events;
     }
