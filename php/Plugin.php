@@ -213,6 +213,19 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
         // Build the namespace checker from the whitelist and the prefix
         $this->checker = new NamespaceChecker($namespaces, $this->prefix);
 
+        // TODO: Generate this dynamically.
+        $isolator_dependencies = [
+            self::PACKAGENAME,
+            'nikic/php-parser', // TODO: Remove this only if no other package depends on it.
+        ];
+
+        // Remove the isolator internal dependencies.
+        foreach ($repo->getCanonicalPackages() as $package) {
+            if (in_array($package->getName(), $isolator_dependencies, true)) {
+                $repo->removePackage($package);
+            }
+        }
+
         // Do the work
         foreach ($packages as $package) {
             // Prefix the namespaces in the installed.json (used to dump autoloaders)
