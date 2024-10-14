@@ -94,7 +94,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
         // They will still be rewritten if they contain namespaces found in other packages
         $this->excludelist = [
             self::PACKAGENAME, // TODO: Get this via Composer API?
-			'nikic/php-parser', // TODO: Remove this only if no other package depends on it.
+            'nikic/php-parser', // TODO: Remove this only if no other package depends on it.
         ];
 
         if (!empty($config['excludelist'])) {
@@ -158,10 +158,21 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
     }
 
     /**
+     * If the plugin can run.
+     */
+    private function canRun() {
+        return isset($this->excludelist);
+    }
+
+    /**
      * Main namespaces logic
      */
     public function mutateNamespaces()
     {
+        if (!$this->canRun()) {
+            return;
+        }
+
         $requiredpkg = [];
 
         // Get a list of just the required packages so that we can exclude the dev-packages.
@@ -238,6 +249,10 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
      */
     public function mutateStaticFiles()
     {
+        if (!$this->canRun()) {
+            return;
+        }
+
         $repo = $this->composer->getRepositoryManager()->getLocalRepository();
         $packages = $repo->getCanonicalPackages();
         $installManager = $this->composer->getInstallationManager();
