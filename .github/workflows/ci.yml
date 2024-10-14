@@ -13,7 +13,7 @@ jobs:
         with:
           php-version: '7.4'
           tools: composer:v1
-    
+
       - name: Set Composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -33,6 +33,6 @@ jobs:
 
       - name: Lint PHP
         run: composer lint-php
-      
+
       - name: Test
         run: composer test
