@@ -10,8 +10,7 @@
     "nikic/php-parser": "^5.0"
   },
   "require-dev": {
-    "composer/composer": "^2.0",
-    "phpunit/phpunit": "^7.5"
+    "composer/composer": "^2.0"
   },
   "autoload":{
     "psr-4":{
@@ -23,17 +22,7 @@
       "WPElevator\\Vendor_IsolatorTest\\": "tests/phpunit/"
     }
   },
-  "config": {
-    "sort-packages": true,
-    "platform": {
-      "php": "7.4"
-    }
-  },
   "extra": {
     "class": "WPElevator\\Vendor_Isolator\\Plugin"
-  },
-  "scripts": {
-    "lint-composer": "@composer validate",
-    "test": "phpunit"
   }
 }
