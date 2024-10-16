@@ -1,10 +1,10 @@
 <?php
 
-namespace WPElevator\Vendor_Isolator\FilehashVisitor;
+namespace WPElevator\Vendor_Isolator\Filehash_Visitor;
 
 use PhpParser\Node;
 
-class AutoloadStaticVisitor extends AbstractVisitor {
+class Autoload_Static_Visitor extends Abstract_Visitor {
 
 	private $entered = false;
 
@@ -12,7 +12,7 @@ class AutoloadStaticVisitor extends AbstractVisitor {
 	 * {@inheritdoc}
 	 */
 	public function enterNode( Node $node ) {
-		if ( $node instanceof Node\Stmt\PropertyProperty and 'files' == $node->name ) {
+		if ( $node instanceof Node\Stmt\PropertyProperty and 'files' === $node->name ) {
 			$this->transformFilehashArray( $node->default );
 		}
 	}

@@ -1,10 +1,10 @@
 <?php
 
-namespace WPElevator\Vendor_Isolator\FilehashVisitor;
+namespace WPElevator\Vendor_Isolator\Filehash_Visitor;
 
 use PhpParser\Node;
 
-class AutoloadFilesVisitor extends AbstractVisitor {
+class Autoload_Files_Visitor extends Abstract_Visitor {
 
 	private $entered = false;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace WPElevator\Vendor_Isolator\FilehashVisitor;
+namespace WPElevator\Vendor_Isolator\Filehash_Visitor;
 
 use PhpParser\Node;
-use PhpParser\NodeVisitorAbstract;
+use PhpParser\Node_Visitor_Abstract;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 
-abstract class AbstractVisitor extends NodeVisitorAbstract {
+abstract class Abstract_Visitor extends Node_Visitor_Abstract {
 
 	/**
 	 * Did we perform a transform?
@@ -19,10 +19,10 @@ abstract class AbstractVisitor extends NodeVisitorAbstract {
 	/**
 	 * @var string To handle proper scope
 	 */
-	protected $vendorsDir;
+	protected $vendors_dir;
 
-	public function __construct( $filePath, $vendorsDir ) {
-		$this->vendorsDir = $vendorsDir;
+	public function __construct( $file_path, $vendors_dir ) {
+		$this->vendors_dir = $vendors_dir;
 	}
 
 	/**
@@ -34,15 +34,15 @@ abstract class AbstractVisitor extends NodeVisitorAbstract {
 		return $this->transformed;
 	}
 
-	protected function transformFilehashArray( Node\Expr\Array_ $arrayNode ) {
+	protected function transformFilehashArray( Node\Expr\Array_ $array_node ) {
 		$printer = new Standard();
 		$parser = ( new ParserFactory() )->createForHostVersion();
 
-		foreach ( $arrayNode->items as $i => $item ) {
+		foreach ( $array_node->items as $i => $item ) {
 			if ( $item->key instanceof Node\Scalar\String_ and false === strpos( $item->key->value, 'isolated-' ) ) {
 				// Let's cook some pretty key
 				$key = 'isolated-' .
-					strtolower( str_replace( dirname( $this->vendorsDir, 3 ), '', $this->vendorsDir ) ) .
+					strtolower( str_replace( dirname( $this->vendors_dir, 3 ), '', $this->vendors_dir ) ) .
 					str_replace( [ '$vendorDir . ', '.php' ], '', $printer->prettyPrintExpr( $item->value ) ) .
 					$item->key->value;
 				$key = preg_replace( '~[^a-z0-9\-]~', '-', $key );

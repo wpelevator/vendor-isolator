@@ -11,9 +11,9 @@ use Composer\Plugin\PluginInterface;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
-use WPElevator\Vendor_Isolator\FilehashVisitor\AbstractVisitor;
-use WPElevator\Vendor_Isolator\FilehashVisitor\AutoloadFilesVisitor;
-use WPElevator\Vendor_Isolator\FilehashVisitor\AutoloadStaticVisitor;
+use WPElevator\Vendor_Isolator\Filehash_Visitor\Abstract_Visitor;
+use WPElevator\Vendor_Isolator\Filehash_Visitor\Autoload_Files_Visitor;
+use WPElevator\Vendor_Isolator\Filehash_Visitor\Autoload_Static_Visitor;
 
 final class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
 
@@ -150,7 +150,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 	 */
 	public function getCapabilities() {
 		return [
-			'Composer\\Plugin\\Capability\\CommandProvider' => 'WPElevator\\Vendor_Isolator\\CommandProvider',
+			'Composer\\Plugin\\Capability\\CommandProvider' => Command_Provider::class,
 		];
 	}
 
@@ -251,15 +251,15 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 		$repo = $this->composer->getRepositoryManager()->getLocalRepository();
 		$packages = $repo->getCanonicalPackages();
 		$installManager = $this->composer->getInstallationManager();
-		$vendorsDir = rtrim( dirname( $installManager->getInstallPath( $packages[0] ), 2 ), '\\/' );
+		$vendors_dir = rtrim( dirname( $installManager->getInstallPath( $packages[0] ), 2 ), '\\/' );
 
 		$parser = ( new ParserFactory() )->createForHostVersion();
 		$printer = new Standard();
 
 		// Iterate over static files
 		foreach ( [
-			"$vendorsDir/composer/autoload_files.php" => AutoloadFilesVisitor::class,
-			"$vendorsDir/composer/autoload_static.php" => AutoloadStaticVisitor::class,
+			"$vendors_dir/composer/autoload_files.php" => Autoload_Files_Visitor::class,
+			"$vendors_dir/composer/autoload_static.php" => Autoload_Static_Visitor::class,
 		] as $filepath => $visitorClass ) {
 			if ( ! is_file( $filepath ) ) {
 				printf( 'Skipping %s since not present.', $filepath );
@@ -267,8 +267,8 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 			}
 
 			$traverser = new NodeTraverser();
-			/** @var AbstractVisitor $visitor */
-			$visitor = new $visitorClass( $filepath, $vendorsDir );
+			/** @var Abstract_Visitor $visitor */
+			$visitor = new $visitorClass( $filepath, $vendors_dir );
 			$traverser->addVisitor( $visitor );
 
 			try {
@@ -334,7 +334,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 
 		$parser = ( new ParserFactory() )->createForHostVersion();
 		$traverser = new NodeTraverser();
-		$visitor = new DiscoveryVisitor();
+		$visitor = new Discovery_Visitor();
 		$traverser->addVisitor( $visitor );
 		try {
 			$stmts = $parser->parse( $contents );

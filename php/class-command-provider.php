@@ -2,9 +2,9 @@
 
 namespace WPElevator\Vendor_Isolator;
 
-use Composer\Plugin\Capability\CommandProvider as CommandProviderCapability;
+use Composer\Plugin\Capability\CommandProvider as Command_Provider_Capability;
 
-final class CommandProvider implements CommandProviderCapability {
+final class Command_Provider implements Command_Provider_Capability {
 
 	/**
 	 * {@inheritdoc}
