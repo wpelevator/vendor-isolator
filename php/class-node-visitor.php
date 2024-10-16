@@ -7,7 +7,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\NodeVisitorAbstract;
 
-final class NodeVisitor extends NodeVisitorAbstract {
+final class Node_Visitor extends NodeVisitorAbstract {
 
 	/**
 	 * Namespace prefix
@@ -19,7 +19,7 @@ final class NodeVisitor extends NodeVisitorAbstract {
 	/**
 	 * Namespace checker
 	 *
-	 * @var NamespaceChecker
+	 * @var Namespace_Checker
 	 */
 	private $checker;
 
@@ -49,7 +49,7 @@ final class NodeVisitor extends NodeVisitorAbstract {
 	 *
 	 * @param string $prefix
 	 */
-	public function __construct( $prefix, NamespaceChecker $checker ) {
+	public function __construct( $prefix, Namespace_Checker $checker ) {
 		$this->prefix = $prefix;
 		$this->checker = $checker;
 		$this->transformed = false;

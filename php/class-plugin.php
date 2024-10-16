@@ -39,7 +39,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 	/**
 	 * Namespace checker
 	 *
-	 * @var NamespaceChecker
+	 * @var Namespace_Checker
 	 */
 	private $checker;
 
@@ -83,7 +83,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 			throw new \Exception( 'You must specify a prefix in your composer.json file' );
 		}
 
-		if ( ! NamespaceChecker::isNamespace( $config['prefix'] ) ) {
+		if ( ! Namespace_Checker::isNamespace( $config['prefix'] ) ) {
 			throw new \Exception( 'Namespace prefix must be a valid namespace' );
 		}
 
@@ -217,7 +217,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 		}
 
 		// Build the namespace checker from the whitelist and the prefix
-		$this->checker = new NamespaceChecker( $namespaces, $this->prefix );
+		$this->checker = new Namespace_Checker( $namespaces, $this->prefix );
 
 		// Remove the isolator internal dependencies.
 		foreach ( $repo->getCanonicalPackages() as $package ) {

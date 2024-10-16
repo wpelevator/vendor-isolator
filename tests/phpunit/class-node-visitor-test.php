@@ -6,12 +6,12 @@ use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\TestCase;
-use WPElevator\Vendor_Isolator\NamespaceChecker;
-use WPElevator\Vendor_Isolator\NodeVisitor;
+use WPElevator\Vendor_Isolator\Namespace_Checker;
+use WPElevator\Vendor_Isolator\Node_Visitor;
 
-class NodeVisitorTest extends TestCase {
+class Node_Visitor_Test extends TestCase {
 
-	public function testNodeVisitor() {
+	public function test_node_visitor() {
 		$prefix = 'Custom\\VendorPrefix';
 
 		$namespaces = [
@@ -31,8 +31,8 @@ class NodeVisitorTest extends TestCase {
 				=> '<?php echo \Custom\VendorPrefix\Vendor1\Package\Classy::SOMETHING;',
 		];
 
-		$checker = new NamespaceChecker( $namespaces, $prefix );
-		$visitor = new NodeVisitor( $prefix, $checker );
+		$checker = new Namespace_Checker( $namespaces, $prefix );
+		$visitor = new Node_Visitor( $prefix, $checker );
 
 		$traverser = new NodeTraverser();
 		$traverser->addVisitor( $visitor );

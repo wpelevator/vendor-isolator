@@ -2,7 +2,7 @@
 
 namespace WPElevator\Vendor_Isolator;
 
-final class NamespaceChecker {
+final class Namespace_Checker {
 
 	/**
 	 * Discovered namespaces

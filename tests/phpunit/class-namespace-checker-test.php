@@ -3,13 +3,13 @@
 namespace WPElevator\Vendor_IsolatorTest;
 
 use PHPUnit\Framework\TestCase;
-use WPElevator\Vendor_Isolator\NamespaceChecker;
+use WPElevator\Vendor_Isolator\Namespace_Checker;
 
-class TestNamespaceChecker extends TestCase {
+class Test_Namespace_Checker extends TestCase {
 
-	public function testIsNamespace() {
-		$this->assertTrue( NamespaceChecker::isNamespace( '\\Vendor\\Prefix' ) );
-		$this->assertFalse( NamespaceChecker::isNamespace( 'SomeRandomString' ) );
+	public function test_is_namespace() {
+		$this->assertTrue( Namespace_Checker::isNamespace( '\\Vendor\\Prefix' ) );
+		$this->assertFalse( Namespace_Checker::isNamespace( 'SomeRandomString' ) );
 	}
 
 	public function testShouldTransform() {
@@ -19,7 +19,7 @@ class TestNamespaceChecker extends TestCase {
 			'Not\\Our\\Prefix' => true,
 		];
 
-		$checker = new NamespaceChecker( $namespaces_to_transform, 'Our\\Prefix' );
+		$checker = new Namespace_Checker( $namespaces_to_transform, 'Our\\Prefix' );
 
 		$this->assertFalse(
 			$checker->shouldTransform( '\\WP_Post' ),
