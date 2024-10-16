@@ -13,14 +13,14 @@
     "composer/composer": "^2.0"
   },
   "autoload":{
-    "psr-4":{
-      "WPElevator\\Vendor_Isolator\\": "php/"
-    }
+    "classmap": [
+      "php/"
+	]
   },
   "autoload-dev": {
-    "psr-4":{
-      "WPElevator\\Vendor_IsolatorTest\\": "tests/phpunit/"
-    }
+	"classmap": [
+      "tests/phpunit/"
+	]
   },
   "extra": {
     "class": "WPElevator\\Vendor_Isolator\\Plugin"
