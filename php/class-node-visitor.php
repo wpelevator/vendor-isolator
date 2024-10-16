@@ -89,14 +89,14 @@ final class Node_Visitor extends NodeVisitorAbstract {
 			}
 		} elseif ( $node instanceof String_ ) {
 			$transform = false;
-			if ( $this->checker->shouldTransform( $node->value ) ) {
+			if ( $this->checker->should_transform( $node->value ) ) {
 				$transform = true;
 			} else {
 				// If it's a fully qualified classname, it won't match a namespace
 				// Pull the classname off and try again
 				$ns = implode( '\\', array_slice( explode( '\\', $node->value ), 0, -1 ) );
 				$ns = sprintf( '%s\\', trim( $ns, '\\' ) ); // Has to end in a \ or it won't match
-				if ( $this->checker->shouldTransform( $ns ) ) {
+				if ( $this->checker->should_transform( $ns ) ) {
 					$transform = true;
 				}
 			}
@@ -106,13 +106,13 @@ final class Node_Visitor extends NodeVisitorAbstract {
 				$this->transformed = true;
 			}
 		} elseif ( $node instanceof Node\Name ) {
-			if ( $node->isFullyQualified() || '__global__' == $this->namespace ) {
+			if ( $node->isFullyQualified() || '__global__' === $this->namespace ) {
 				if ( count( $node->getParts() ) > 1 ) { // Single part means global, so ignores
 					// If the first part is aliased, then we don't need to transform
 					// The alias should already be transformed properly
 					$aliased = false;
 					foreach ( $this->aliases as $alias ) {
-						if ( $node->getFirst() == $alias ) {
+						if ( $node->getFirst() === $alias ) {
 							$aliased = true;
 							break;
 						}
@@ -144,7 +144,7 @@ final class Node_Visitor extends NodeVisitorAbstract {
 		$string = sprintf( '%s\\', trim( implode( '\\', $parts ), '\\' ) );
 
 		// Prepend the prefix
-		if ( $this->checker->shouldTransform( $string ) ) {
+		if ( $this->checker->should_transform( $string ) ) {
 			array_unshift( $parts, $this->prefix );
 			$this->transformed = true;
 		}

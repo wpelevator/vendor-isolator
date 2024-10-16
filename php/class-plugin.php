@@ -83,7 +83,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 			throw new \Exception( 'You must specify a prefix in your composer.json file' );
 		}
 
-		if ( ! Namespace_Checker::isNamespace( $config['prefix'] ) ) {
+		if ( ! Namespace_Checker::is_namespace( $config['prefix'] ) ) {
 			throw new \Exception( 'Namespace prefix must be a valid namespace' );
 		}
 
@@ -355,7 +355,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 		foreach ( $autoload as $type => $dict ) {
 			foreach ( $autoload[ $type ] as $ns => $entry ) {
 				$tmp = sprintf( '%s\\', trim( $ns, '\\' ) );
-				if ( ! $this->checker->shouldTransform( $tmp ) ) {
+				if ( ! $this->checker->should_transform( $tmp ) ) {
 					continue;
 				}
 
@@ -369,7 +369,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 		$autoload = $package->getDevAutoload();
 		foreach ( $autoload as $type => $dict ) {
 			foreach ( $autoload[ $type ] as $ns => $entry ) {
-				if ( ! $this->checker->shouldTransform( $ns ) ) {
+				if ( ! $this->checker->should_transform( $ns ) ) {
 					continue;
 				}
 

@@ -5,14 +5,14 @@ namespace WPElevator\Vendor_IsolatorTest;
 use PHPUnit\Framework\TestCase;
 use WPElevator\Vendor_Isolator\Namespace_Checker;
 
-class Test_Namespace_Checker extends TestCase {
+class Namespace_Checker_Test extends TestCase {
 
 	public function test_is_namespace() {
-		$this->assertTrue( Namespace_Checker::isNamespace( '\\Vendor\\Prefix' ) );
-		$this->assertFalse( Namespace_Checker::isNamespace( 'SomeRandomString' ) );
+		$this->assertTrue( Namespace_Checker::is_namespace( '\\Vendor\\Prefix' ) );
+		$this->assertFalse( Namespace_Checker::is_namespace( 'SomeRandomString' ) );
 	}
 
-	public function testShouldTransform() {
+	public function testshould_transform() {
 		$namespaces_to_transform = [
 			'Vendor\\Package'  => true,
 			'NotOur\\Prefix'   => true,
@@ -22,17 +22,17 @@ class Test_Namespace_Checker extends TestCase {
 		$checker = new Namespace_Checker( $namespaces_to_transform, 'Our\\Prefix' );
 
 		$this->assertFalse(
-			$checker->shouldTransform( '\\WP_Post' ),
+			$checker->should_transform( '\\WP_Post' ),
 			'Skip transforming unknown namespaces'
 		);
 
 		$this->assertTrue(
-			$checker->shouldTransform( 'Vendor\\Package' ),
+			$checker->should_transform( 'Vendor\\Package' ),
 			'Transform listed namespaces'
 		);
 
 		$this->assertFalse(
-			$checker->shouldTransform( 'Our\\Prefix' ),
+			$checker->should_transform( 'Our\\Prefix' ),
 			'Skip transforming our own namespace'
 		);
 	}

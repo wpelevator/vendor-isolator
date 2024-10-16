@@ -49,7 +49,7 @@ class Node_Visitor_Test extends TestCase {
 		}
 	}
 
-	protected function multiline_to_single_line( $string ) {
-		return preg_replace( '#[\r\s\n]+#i', ' ', $string );
+	protected function multiline_to_single_line( $blob ) {
+		return preg_replace( '#[\r\s\n]+#i', ' ', $blob );
 	}
 }
