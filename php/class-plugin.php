@@ -193,7 +193,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 			}
 
 			// Skip excluded packages such self and any custom passed via config.
-			if ( in_array( $name, $this->excludelist ) ) {
+			if ( in_array( $name, $this->excludelist, true ) ) {
 				continue;
 			}
 
@@ -250,8 +250,8 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 
 		$repo = $this->composer->getRepositoryManager()->getLocalRepository();
 		$packages = $repo->getCanonicalPackages();
-		$installManager = $this->composer->getInstallationManager();
-		$vendors_dir = rtrim( dirname( $installManager->getInstallPath( $packages[0] ), 2 ), '\\/' );
+		$install_manager = $this->composer->getInstallationManager();
+		$vendors_dir = rtrim( dirname( $install_manager->getInstallPath( $packages[0] ), 2 ), '\\/' );
 
 		$parser = ( new ParserFactory() )->createForHostVersion();
 		$printer = new Standard();
@@ -260,7 +260,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 		foreach ( [
 			"$vendors_dir/composer/autoload_files.php" => Autoload_Files_Visitor::class,
 			"$vendors_dir/composer/autoload_static.php" => Autoload_Static_Visitor::class,
-		] as $filepath => $visitorClass ) {
+		] as $filepath => $visitor_class ) {
 			if ( ! is_file( $filepath ) ) {
 				printf( 'Skipping %s since not present.', $filepath );
 				continue;
@@ -268,7 +268,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 
 			$traverser = new NodeTraverser();
 			/** @var Abstract_Visitor $visitor */
-			$visitor = new $visitorClass( $filepath, $vendors_dir );
+			$visitor = new $visitor_class( $filepath, $vendors_dir );
 			$traverser->addVisitor( $visitor );
 
 			try {
@@ -295,8 +295,8 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 		$namespaces = [];
 
 		// Make sure it's actually installed...
-		$installManager = $this->composer->getInstallationManager();
-		$directory = rtrim( $installManager->getInstallPath( $package ), '/' );
+		$install_manager = $this->composer->getInstallationManager();
+		$directory = rtrim( $install_manager->getInstallPath( $package ), '/' );
 		if ( empty( $directory ) ) {
 			return $namespaces;
 		}
@@ -307,7 +307,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 		foreach ( $it as $file ) {
 			$ext = pathinfo( $file, PATHINFO_EXTENSION );
 			$file = (string) $file;
-			if ( 'php' == $ext ) {
+			if ( 'php' === $ext ) {
 				$namespaces = array_merge( $namespaces, $this->discoverFile( $file ) );
 			} elseif ( empty( $ext ) ) {
 				// Also grab files with no extension that contain <?php
@@ -385,8 +385,8 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 	 */
 	private function rewritePackage( PackageInterface $package ) {
 		// Make sure it's actually installed...
-		$installManager = $this->composer->getInstallationManager();
-		$directory = rtrim( $installManager->getInstallPath( $package ), '/' );
+		$install_manager = $this->composer->getInstallationManager();
+		$directory = rtrim( $install_manager->getInstallPath( $package ), '/' );
 		if ( empty( $directory ) ) {
 			return;
 		}
@@ -401,7 +401,7 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 		foreach ( $it as $file ) {
 			$ext = pathinfo( $file, PATHINFO_EXTENSION );
 			$file = (string) $file;
-			if ( 'php' == $ext ) {
+			if ( 'php' === $ext ) {
 				$this->transformFile( $file );
 			} elseif ( empty( $ext ) ) {
 				// Also grab files with no extension that contain <?php
@@ -423,15 +423,15 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 		$contents = file_get_contents( $filepath );
 
 		$parser = ( new ParserFactory() )->createForHostVersion();
-		$prettyPrinter = new Standard();
+		$pretty_printer = new Standard();
 		$traverser = new NodeTraverser();
-		$visitor = new NodeVisitor( $this->prefix, $this->checker );
+		$visitor = new Node_Visitor( $this->prefix, $this->checker );
 		$traverser->addVisitor( $visitor );
 		try {
 			$stmts = $parser->parse( $contents );
 			$stmts = $traverser->traverse( $stmts );
 			if ( $visitor->didTransform() ) {
-				$contents = $prettyPrinter->prettyPrintFile( $stmts );
+				$contents = $pretty_printer->prettyPrintFile( $stmts );
 				$transformed = true;
 			}
 
@@ -515,14 +515,14 @@ final class Plugin implements PluginInterface, EventSubscriberInterface, Capable
 	/**
 	 * Get the list of required dependencies
 	 */
-	private function getRequired( PackageInterface $package, array &$list ) {
+	private function getRequired( PackageInterface $package, array &$package_names ) {
 		$required = array_keys( $package->getRequires() );
 		foreach ( $required as $pkg ) {
-			if ( ! isset( $list[ $pkg ] ) ) {
+			if ( ! isset( $package_names[ $pkg ] ) ) {
 				$pkgobj = $this->composer->getRepositoryManager()->getLocalRepository()->findPackage( $pkg, '*' );
-				if ( null != $pkgobj ) {
-					$list[ $pkg ] = true;
-					$this->getRequired( $pkgobj, $list );
+				if ( null !== $pkgobj ) {
+					$package_names[ $pkg ] = true;
+					$this->getRequired( $pkgobj, $package_names );
 				}
 			}
 		}
