@@ -3,11 +3,11 @@
 namespace WPElevator\Vendor_Isolator\Filehash_Visitor;
 
 use PhpParser\Node;
-use PhpParser\Node_Visitor_Abstract;
+use PhpParser\NodeVisitorAbstract;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 
-abstract class Abstract_Visitor extends Node_Visitor_Abstract {
+abstract class Abstract_Visitor extends NodeVisitorAbstract {
 
 	/**
 	 * Did we perform a transform?

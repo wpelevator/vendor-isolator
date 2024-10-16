@@ -4,9 +4,9 @@ namespace WPElevator\Vendor_Isolator;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Namespace_;
-use PhpParser\Node_Visitor_Abstract;
+use PhpParser\NodeVisitorAbstract;
 
-final class Discovery_Visitor extends Node_Visitor_Abstract {
+final class Discovery_Visitor extends NodeVisitorAbstract {
 
 	/**
 	 * Discovered namespaces
