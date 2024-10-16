@@ -4,24 +4,23 @@ namespace WPElevator\Vendor_Isolator\FilehashVisitor;
 
 use PhpParser\Node;
 
-class AutoloadFilesVisitor extends AbstractVisitor
-{
-    private $entered = false;
+class AutoloadFilesVisitor extends AbstractVisitor {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function enterNode(Node $node)
-    {
-        if ($this->entered and $node instanceof Node\Expr\Array_) {
-            $this->transformFilehashArray($node);
+	private $entered = false;
 
-            // Don't catch anything more
-            $this->entered = false;
-        }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function enterNode( Node $node ) {
+		if ( $this->entered and $node instanceof Node\Expr\Array_ ) {
+			$this->transformFilehashArray( $node );
 
-        if ($node instanceof Node\Stmt\Return_) {
-            $this->entered = true;
-        }
-    }
+			// Don't catch anything more
+			$this->entered = false;
+		}
+
+		if ( $node instanceof Node\Stmt\Return_ ) {
+			$this->entered = true;
+		}
+	}
 }

@@ -6,42 +6,39 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\NodeVisitorAbstract;
 
-final class DiscoveryVisitor extends NodeVisitorAbstract
-{
-    /**
-     * Discovered namespaces
-     *
-     * @var array
-     */
-    private $namespaces;
+final class DiscoveryVisitor extends NodeVisitorAbstract {
 
-    /**
-     * Class constructor
-     */
-    public function __construct()
-    {
-        $this->namespaces = [];
-    }
+	/**
+	 * Discovered namespaces
+	 *
+	 * @var array
+	 */
+	private $namespaces;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function enterNode(Node $node)
-    {
-        if ($node instanceof Namespace_) {
-            if (isset($node->name)) {
-                $this->namespaces[implode('\\', $node->name->getParts())] = true;
-            }
-        }
-    }
+	/**
+	 * Class constructor
+	 */
+	public function __construct() {
+		$this->namespaces = [];
+	}
 
-    /**
-     * Get the list of discovered namespaces
-     *
-     * @return array
-     */
-    public function getNamespaces()
-    {
-        return $this->namespaces;
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function enterNode( Node $node ) {
+		if ( $node instanceof Namespace_ ) {
+			if ( isset( $node->name ) ) {
+				$this->namespaces[ implode( '\\', $node->name->getParts() ) ] = true;
+			}
+		}
+	}
+
+	/**
+	 * Get the list of discovered namespaces
+	 *
+	 * @return array
+	 */
+	public function getNamespaces() {
+		return $this->namespaces;
+	}
 }

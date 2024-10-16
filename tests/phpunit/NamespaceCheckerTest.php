@@ -5,37 +5,35 @@ namespace WPElevator\Vendor_IsolatorTest;
 use PHPUnit\Framework\TestCase;
 use WPElevator\Vendor_Isolator\NamespaceChecker;
 
-class TestNamespaceChecker extends TestCase
-{
-    public function testIsNamespace()
-    {
-        $this->assertTrue(NamespaceChecker::isNamespace('\\Vendor\\Prefix'));
-        $this->assertFalse(NamespaceChecker::isNamespace('SomeRandomString'));
-    }
+class TestNamespaceChecker extends TestCase {
 
-    public function testShouldTransform()
-    {
-        $namespaces_to_transform = [
-            'Vendor\\Package'  => true,
-            'NotOur\\Prefix'   => true,
-            'Not\\Our\\Prefix' => true,
-        ];
+	public function testIsNamespace() {
+		$this->assertTrue( NamespaceChecker::isNamespace( '\\Vendor\\Prefix' ) );
+		$this->assertFalse( NamespaceChecker::isNamespace( 'SomeRandomString' ) );
+	}
 
-        $checker = new NamespaceChecker($namespaces_to_transform, 'Our\\Prefix');
+	public function testShouldTransform() {
+		$namespaces_to_transform = [
+			'Vendor\\Package'  => true,
+			'NotOur\\Prefix'   => true,
+			'Not\\Our\\Prefix' => true,
+		];
 
-        $this->assertFalse(
-            $checker->shouldTransform('\\WP_Post'),
-            'Skip transforming unknown namespaces'
-        );
+		$checker = new NamespaceChecker( $namespaces_to_transform, 'Our\\Prefix' );
 
-        $this->assertTrue(
-            $checker->shouldTransform('Vendor\\Package'),
-            'Transform listed namespaces'
-        );
+		$this->assertFalse(
+			$checker->shouldTransform( '\\WP_Post' ),
+			'Skip transforming unknown namespaces'
+		);
 
-        $this->assertFalse(
-            $checker->shouldTransform('Our\\Prefix'),
-            'Skip transforming our own namespace'
-        );
-    }
+		$this->assertTrue(
+			$checker->shouldTransform( 'Vendor\\Package' ),
+			'Transform listed namespaces'
+		);
+
+		$this->assertFalse(
+			$checker->shouldTransform( 'Our\\Prefix' ),
+			'Skip transforming our own namespace'
+		);
+	}
 }
