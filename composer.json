@@ -12,15 +12,15 @@
   "require-dev": {
     "composer/composer": "^2.0"
   },
-  "autoload":{
+  "autoload": {
     "classmap": [
       "php/"
-	]
+    ]
   },
   "autoload-dev": {
-	"classmap": [
+    "classmap": [
       "tests/phpunit/"
-	]
+    ]
   },
   "extra": {
     "class": "WPElevator\\Vendor_Isolator\\Plugin"
