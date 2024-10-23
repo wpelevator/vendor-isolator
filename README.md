@@ -2,6 +2,11 @@
 
 Composer plugin to isolate project dependencies by prefixing their namespace.
 
+## Requirements
+
+- PHP 7.4 or later
+- [Composer v2](https://getcomposer.org/upgrade/UPGRADE-2.0.md)
+
 ## To Do
 
 - Describe how this is different from php-scoper and other projects.
