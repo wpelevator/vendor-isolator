@@ -23,10 +23,10 @@ class Node_Visitor_Test extends TestCase {
 				=> '<?php namespace Custom\VendorPrefix\Vendor1\Package; class Example { function __construct() { wp_login(); } }',
 			'<?php $assumed_root = new Vendor1\Package\AssumedRoot();'
 				=> '<?php $assumed_root = new Vendor1\Package\AssumedRoot();',
-			'<?php $excplicit_root = new \Vendor1\Package\ExplicitRoot();'
-				=> '<?php $excplicit_root = new \Custom\VendorPrefix\Vendor1\Package\ExplicitRoot();',
-			'<?php use \Vendor1\Package\ExplicitRoot; $excplicit_root = new ExplicitRoot();'
-				=> '<?php use Custom\VendorPrefix\Vendor1\Package\ExplicitRoot; $excplicit_root = new ExplicitRoot();',
+			'<?php $explicit_root = new \Vendor1\Package\ExplicitRoot();'
+				=> '<?php $explicit_root = new \Custom\VendorPrefix\Vendor1\Package\ExplicitRoot();',
+			'<?php use \Vendor1\Package\ExplicitRoot; $explicit_root = new ExplicitRoot();'
+				=> '<?php use Custom\VendorPrefix\Vendor1\Package\ExplicitRoot; $explicit_root = new ExplicitRoot();',
 			'<?php echo \Vendor1\Package\Classy::SOMETHING;'
 				=> '<?php echo \Custom\VendorPrefix\Vendor1\Package\Classy::SOMETHING;',
 		];

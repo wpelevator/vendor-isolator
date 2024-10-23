@@ -3,6 +3,7 @@
 namespace WPElevator\Vendor_Isolator;
 
 use Composer\Command\BaseCommand;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -21,5 +22,7 @@ final class Command extends BaseCommand {
 	 */
 	protected function execute( InputInterface $input, OutputInterface $output ) {
 		$this->getComposer()->getEventDispatcher()->dispatch( '__isolate-dependencies' );
+
+		return SymfonyCommand::SUCCESS;
 	}
 }
