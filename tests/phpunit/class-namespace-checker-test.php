@@ -14,8 +14,8 @@ class Namespace_Checker_Test extends TestCase {
 
 	public function testshould_transform() {
 		$namespaces_to_transform = [
-			'Vendor\\Package'  => true,
-			'NotOur\\Prefix'   => true,
+			'Vendor\\Package' => true,
+			'NotOur\\Prefix' => true,
 			'Not\\Our\\Prefix' => true,
 		];
 
