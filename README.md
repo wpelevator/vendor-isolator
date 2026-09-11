@@ -23,6 +23,8 @@ Composer plugin to isolate project dependencies by prefixing their namespace.
 
 - It doesn't replace function definitions and calls in the global namespace. Any definitions and calls to global functions will remain in the global namespace after the transformation.
 
+- It prefixes the single part imports of dependency namespaces such as `use Nette;` so that relative names like `Nette\SmartObject` resolve to the prefixed namespace, while imports of global classes such as `use Throwable;` are left as is.
+
 ## Credits
 
 A fork of [and/composer-isolation](https://github.com/logical-and/composer-isolation).

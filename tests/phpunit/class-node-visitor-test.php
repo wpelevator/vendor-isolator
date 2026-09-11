@@ -49,6 +49,44 @@ class Node_Visitor_Test extends TestCase {
 		}
 	}
 
+	public function test_single_part_use_imports() {
+		$prefix = 'Custom\\VendorPrefix';
+
+		$namespaces = [
+			'Vendor1' => true,
+			'Vendor1\Package' => true,
+		];
+
+		$checker = new Namespace_Checker( $namespaces, $prefix );
+
+		$visitor = new Node_Visitor( $prefix, $checker );
+
+		$this->assertEquals(
+			'<?php namespace Custom\VendorPrefix\Vendor1\Package; use Custom\VendorPrefix\Vendor1; class Example { use Vendor1\SmartObject; }',
+			$this->transform( '<?php namespace Vendor1\Package; use Vendor1; class Example { use Vendor1\SmartObject; }', $visitor ),
+			'Single part imports of vendor namespaces are prefixed so that the relative names resolve to the prefixed namespace'
+		);
+
+		$visitor = new Node_Visitor( $prefix, $checker );
+
+		$this->assertEquals(
+			'<?php use Throwable; use ArrayAccess as Access; class Example { }',
+			$this->transform( '<?php use Throwable; use ArrayAccess as Access; class Example { }', $visitor ),
+			'Single part imports of global classes are left alone'
+		);
+
+		$this->assertFalse( $visitor->didTransform(), 'Files with only global class imports are not transformed' );
+	}
+
+	protected function transform( string $code, Node_Visitor $visitor ): string {
+		$traverser = new NodeTraverser();
+		$traverser->addVisitor( $visitor );
+
+		$stmts = $traverser->traverse( ( new ParserFactory() )->createForHostVersion()->parse( $code ) );
+
+		return $this->multiline_to_single_line( ( new Standard() )->prettyPrintFile( $stmts ) );
+	}
+
 	protected function multiline_to_single_line( $blob ) {
 		return preg_replace( '#[\r\s\n]+#i', ' ', $blob );
 	}

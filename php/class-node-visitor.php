@@ -75,7 +75,7 @@ final class Node_Visitor extends NodeVisitorAbstract {
 					// Keep track of any aliases being used
 					$this->aliases[] = $use->alias;
 				}
-				if ( count( $use->name->getParts() ) > 1 ) { // Single part means global, so ignore
+				if ( count( $use->name->getParts() ) > 1 ) {
 					// Split off the classname and transform the namespace
 					$ns_parts = $use->name->getParts();
 					$i = count( $ns_parts ) - 1;
@@ -85,6 +85,10 @@ final class Node_Visitor extends NodeVisitorAbstract {
 					// Put the classname back on and override
 					$ns[] = $ns_parts[ $i ];
 					$use->name = $use->name->concat( array_filter( $ns ), null );
+				} else {
+					// Single part is either a global class like `use Throwable;` which is left alone,
+					// or a namespace like `use Nette;` used by relative names such as `Nette\SmartObject`
+					$use->name = $use->name->concat( $this->transformNamespace( $use->name->getParts() ), null );
 				}
 			}
 		} elseif ( $node instanceof String_ ) {
