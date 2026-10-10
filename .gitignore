@@ -1,7 +1,0 @@
-/vendor/
-/composer.lock
-
-# Ignore local config overrides.
-/.env
-/.php-cs-fixer.php
-/phpunit.xml
